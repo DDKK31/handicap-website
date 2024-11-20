@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - LGSGuide</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="java" href="script.js">
+</head>
+<body>
+    <a href="#main" class="skip-link">Gå til hovedindhold</a>
+    
+    <nav class="top-nav">
+        <div class="nav-content">
+            <div class="nav-left">
+                <button class="theme-toggle" aria-label="Skift tema">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="logo-container"><div class="logo-container">
+                <a href="forside.html" class="logo">LGSGuide</a>
+                <p class="subtitle">Din guide til Local Game Stores</p>
+            </div>
+            <div class="nav-right">
+                <div class="keyboard-hint">
+                    Brug ← → piletaster for at navigere
+                </div>
+            </div>
+        </div>
+        <div class="nav-right">
+        <a href="index.html" class="nav-link">Regler</a>
+            <a href="email.html" class="nav-link">Kontakt</a>
+        </div>
+        </div>
+    </nav>
+
+    <main id="main" class="container">
+        <div class="card contact-card">
+            <h1>Kontakt Os</h1>
+            <p class="contact-intro">Har du spørgsmål eller brug for hjælp? Udfyld formularen nedenfor, så vender vi tilbage til dig hurtigst muligt.</p>
+            
+            <form class="contact-form" action="/submit" method="POST">
+                <div class="form-group">
+                    <label for="name">Navn</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        required 
+                        aria-required="true"
+                        placeholder="Indtast dit navn"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        aria-required="true"
+                        placeholder="Indtast din email"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Emne</label>
+                    <select 
+                        id="subject" 
+                        name="subject" 
+                        required 
+                        aria-required="true"
+                    >
+                        <option value="">Vælg et emne</option>
+                        <option value="general">Generelt spørgsmål</option>
+                        <option value="tournament">Turneringsspørgsmål</option>
+                        <option value="rules">Regelspørgsmål</option>
+                        <option value="other">Andet</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Besked</label>
+                    <textarea 
+                        id="message" 
+                        name="message" 
+                        required 
+                        aria-required="true"
+                        placeholder="Skriv din besked her..."
+                        rows="5"
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Send besked
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+        <div class="navigation-dots" role="navigation" aria-label="Side navigation">
+            <button class="dot active" aria-label="Gå til side 1"></button> <a href="index.html"></a>
+            <button class="dot" aria-label="Gå til side 2"></button> <a href="email.html"></a>
+            <button class="dot" aria-label="Gå til side 3"></button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2024 LGSGuide - Lavet med ❤️ til trading card game community'et</p>
+            <div class="accessibility-info">
+                <p>Brug Tab for at navigere mellem formularfelter, Enter for at sende</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggling
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.setAttribute('data-theme', 
+                document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+            );
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const navigationDots = document.querySelector('.navigation-dots');
+            
+            // Definer siderne og deres rækkefølge
+            const pages = [
+                { url: 'index.html', title: 'Forside' },
+                { url: 'email.html', title: 'Kontakt' }
+            ];
+            
+            // Ryd eksisterende dots og opret nye
+            navigationDots.innerHTML = '';
+            
+            // Find den aktuelle side
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            
+            // Opret dots for hver side
+            pages.forEach((page, index) => {
+                const dot = document.createElement('button');
+                dot.classList.add('dot');
+                dot.setAttribute('aria-label', `Gå til ${page.title}`);
+                
+                // Marker den aktive dot
+                if (currentPage === page.url) {
+                    dot.classList.add('active');
+                }
+                
+                // Tilføj click event
+                dot.addEventListener('click', () => {
+                    window.location.href = page.url;
+                });
+                
+                navigationDots.appendChild(dot);
+            });
+            
+            // Tilføj keyboard navigation mellem sider
+            document.addEventListener('keydown', (e) => {
+                const currentIndex = pages.findIndex(page => page.url === currentPage);
+                
+                if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                    window.location.href = pages[currentIndex - 1].url;
+                } else if (e.key === 'ArrowRight' && currentIndex < pages.length - 1) {
+                    window.location.href = pages[currentIndex + 1].url;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
